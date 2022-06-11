@@ -1,7 +1,8 @@
 ext {
     versions = [
 
-            navigation : "2.4.2"
+            navigation : "2.4.2",
+            retrofit: "2.9.0"
 
     ]
 }
