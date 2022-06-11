@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ccfinancegrouptask.data.model.StockModel
 import com.example.ccfinancegrouptask.databinding.RowStockListBinding
 
-class StockListAdapter : RecyclerView.Adapter<StockListAdapter.StockViewHolder>() {
+class StockListAdapter(private val onStockClick: () -> Unit) : RecyclerView.Adapter<StockListAdapter.StockViewHolder>() {
 
     private var stockList = mutableListOf<StockModel>()
 
@@ -44,6 +44,7 @@ class StockListAdapter : RecyclerView.Adapter<StockListAdapter.StockViewHolder>(
                 textStockLongName.text = stockModel.fullExchangeName
                 textStockShortName.text = stockModel.exchange
                 textStockPrice.text = stockModel.previousClose
+                layoutStock.setOnClickListener { onStockClick.invoke() }
             }
         }
     }

@@ -20,7 +20,13 @@ class StockDescriptionFragment : BaseFragment() {
     }
 
     override fun initUI() {
-        TODO("Not yet implemented")
+        binding.apply {
+            symbol.text = "addadaadsas"
+            shortName.text = "dfdsffssfs"
+            longName.text = "aadaada"
+            price.text = "356454616"
+
+        }
     }
 
     override fun initObservers() {

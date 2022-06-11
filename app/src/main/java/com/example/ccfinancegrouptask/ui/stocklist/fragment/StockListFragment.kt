@@ -3,6 +3,7 @@ package com.example.ccfinancegrouptask.ui.stocklist.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.data.model.StockModel
 import com.example.ccfinancegrouptask.databinding.FragmentStockListBinding
@@ -12,6 +13,12 @@ class StockListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStockListBinding
     private lateinit var adapter: StockListAdapter
+
+    private val onStockClick: () -> Unit = {
+        findNavController().navigate(
+            StockListFragmentDirections.actionStockListFragmentToStockDescriptionFragment()
+        )
+    }
 
     override fun initDI() {
         TODO("Not yet implemented")
@@ -23,20 +30,22 @@ class StockListFragment : BaseFragment() {
     }
 
     override fun initUI() {
-        adapter = StockListAdapter()
+        adapter = StockListAdapter(onStockClick)
         binding.recyclerView.adapter = adapter
 
 
         val list = mutableListOf<StockModel>().apply {
-            repeat(20){
-                add(StockModel(
-                    "BTC-USD",
-                    "CCC",
-                    "CCC",
-                    "CRYPTO",
-                    "29084.479",
-                    "29084.479"
-                ))
+            repeat(20) {
+                add(
+                    StockModel(
+                        "BTC-USD",
+                        "CCC",
+                        "CCC",
+                        "CRYPTO",
+                        "29084.479",
+                        "29084.479"
+                    )
+                )
             }
         }
 
