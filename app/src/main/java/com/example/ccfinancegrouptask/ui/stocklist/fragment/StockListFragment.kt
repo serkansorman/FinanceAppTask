@@ -3,6 +3,7 @@ package com.example.ccfinancegrouptask.ui.stocklist.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.data.model.StockModel
@@ -30,6 +31,16 @@ class StockListFragment : BaseFragment() {
     }
 
     override fun initUI() {
+        initAdapter()
+        initSearchLayout()
+    }
+
+    override fun initObservers() {
+        TODO("Not yet implemented")
+    }
+
+    private fun initAdapter(){
+
         adapter = StockListAdapter(onStockClick)
         binding.recyclerView.adapter = adapter
 
@@ -46,16 +57,33 @@ class StockListFragment : BaseFragment() {
                         "29084.479"
                     )
                 )
+
+                add(
+                    StockModel(
+                        "APPLE",
+                        "APL",
+                        "APPLE INC",
+                        "STOCK",
+                        "1234.479",
+                        "1234.479"
+                    )
+                )
             }
         }
 
 
-
         adapter.updateStockList(list)
-
     }
 
-    override fun initObservers() {
-        TODO("Not yet implemented")
+    private fun initSearchLayout(){
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(p0: String?): Boolean {
+                adapter.filter.filter(p0)
+                return true
+            }
+        })
     }
 }
