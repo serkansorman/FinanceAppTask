@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 
 data class StockListResponseModel(
     @SerializedName("marketSummaryAndSparkResponse")
-    val data: Data
+    val resultData: ResultData
 )
 
-data class Data(val result: List<StockModel>,
-                val error: String?)
+data class ResultData(val result: List<StockModel>,
+                      val error: String?)

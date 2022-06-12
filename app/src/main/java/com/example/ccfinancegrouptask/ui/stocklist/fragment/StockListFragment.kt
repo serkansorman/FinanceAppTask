@@ -15,6 +15,7 @@ import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSour
 import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
 import com.example.ccfinancegrouptask.databinding.FragmentStockListBinding
 import com.example.ccfinancegrouptask.ui.stocklist.adapter.StockListAdapter
+import com.example.ccfinancegrouptask.ui.stocklist.event.StockListEvent
 import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +55,15 @@ class StockListFragment : BaseFragment() {
         lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED){
                 viewModel.stockListStateFlow.collect{
-                    adapter.updateStockList(it.data.result.toMutableList())
+                    when(it){
+                        is StockListEvent.Success -> {
+                            adapter.updateStockList(it.stockList.toMutableList())
+                        }
+                        is StockListEvent.Failure -> {
+                            //TODO handle error
+                        }
+                    }
+
                 }
             }
         }

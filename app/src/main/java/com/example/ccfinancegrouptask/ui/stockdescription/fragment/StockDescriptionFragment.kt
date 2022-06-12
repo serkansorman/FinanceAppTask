@@ -33,4 +33,9 @@ class StockDescriptionFragment : BaseFragment() {
     override fun fetchData() {
     }
 
+    /*TODO override fun onDestroy() {
+    mBinding = null
+    super.onDestroy()
+}*/
+
 }
