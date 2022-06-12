@@ -48,10 +48,10 @@ class StockListAdapter(private val onStockClick: () -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(stockModel: StockModel) {
             with(binding) {
-                textStockSymbol.text = stockModel.symbol
+                textStockExchange.text = stockModel.exchange
                 textStockLongName.text = stockModel.fullExchangeName
-                textStockShortName.text = stockModel.exchange
-                textStockPrice.text = stockModel.previousClose
+                textStockShortName.text = stockModel.shortName
+                textStockPrice.text = stockModel.marketClosePrice?.fmt
                 layoutStock.setOnClickListener { onStockClick.invoke() }
             }
         }
@@ -81,8 +81,7 @@ class StockListAdapter(private val onStockClick: () -> Unit) :
     }
 
     private fun isStockMatched(stockModel: StockModel, query: String): Boolean {
-        return query.isNotBlank() && (stockModel.symbol?.lowercase()
-            ?.contains(query.lowercase()) == true ||
+        return query.isNotBlank() && (stockModel.shortName?.lowercase()?.contains(query.lowercase()) == true ||
                 stockModel.fullExchangeName?.lowercase()?.contains(query.lowercase()) == true ||
                 stockModel.exchange?.lowercase()?.contains(query.lowercase()) == true)
     }

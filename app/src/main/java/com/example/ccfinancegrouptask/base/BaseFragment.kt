@@ -8,25 +8,25 @@ import androidx.fragment.app.Fragment
 
 abstract class BaseFragment : Fragment() {
 
-    abstract fun initDI()
-
     abstract fun bindView(inflater: LayoutInflater, container: ViewGroup?): View
 
     abstract fun initUI()
 
     abstract fun initObservers()
 
+    abstract fun fetchData()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //initDI() TODO
         return bindView(inflater, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        //initObservers() TODO
+        initObservers()
+        fetchData()
     }
 }

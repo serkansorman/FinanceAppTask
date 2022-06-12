@@ -4,25 +4,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.data.model.StockModel
+import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSource
+import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
 import com.example.ccfinancegrouptask.databinding.FragmentStockListBinding
 import com.example.ccfinancegrouptask.ui.stocklist.adapter.StockListAdapter
+import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class StockListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStockListBinding
+    private val viewModel by viewModels<StockListViewModel>()
     private lateinit var adapter: StockListAdapter
 
     private val onStockClick: () -> Unit = {
         findNavController().navigate(
             StockListFragmentDirections.actionStockListFragmentToStockDescriptionFragment()
         )
-    }
-
-    override fun initDI() {
-        TODO("Not yet implemented")
     }
 
     override fun bindView(inflater: LayoutInflater, container: ViewGroup?): View {
@@ -36,43 +51,22 @@ class StockListFragment : BaseFragment() {
     }
 
     override fun initObservers() {
-        TODO("Not yet implemented")
+        lifecycleScope.launch{
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED){
+                viewModel.stockListStateFlow.collect{
+                    adapter.updateStockList(it.data.result.toMutableList())
+                }
+            }
+        }
+    }
+
+    override fun fetchData() {
+        viewModel.getStockList()
     }
 
     private fun initAdapter(){
-
         adapter = StockListAdapter(onStockClick)
         binding.recyclerView.adapter = adapter
-
-
-        val list = mutableListOf<StockModel>().apply {
-            repeat(20) {
-                add(
-                    StockModel(
-                        "BTC-USD",
-                        "CCC",
-                        "CCC",
-                        "CRYPTO",
-                        "29084.479",
-                        "29084.479"
-                    )
-                )
-
-                add(
-                    StockModel(
-                        "APPLE",
-                        "APL",
-                        "APPLE INC",
-                        "STOCK",
-                        "1234.479",
-                        "1234.479"
-                    )
-                )
-            }
-        }
-
-
-        adapter.updateStockList(list)
     }
 
     private fun initSearchLayout(){
@@ -86,4 +80,9 @@ class StockListFragment : BaseFragment() {
             }
         })
     }
+
+    /*TODO override fun onDestroy() {
+        mBinding = null
+        super.onDestroy()
+    }*/
 }

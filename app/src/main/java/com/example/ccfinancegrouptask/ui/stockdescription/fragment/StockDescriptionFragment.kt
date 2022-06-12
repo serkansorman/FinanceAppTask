@@ -5,14 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.databinding.FragmentStockDescriptionBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StockDescriptionFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStockDescriptionBinding
-
-    override fun initDI() {
-        TODO("Not yet implemented")
-    }
 
     override fun bindView(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = FragmentStockDescriptionBinding.inflate(inflater,container,false)
@@ -30,7 +28,9 @@ class StockDescriptionFragment : BaseFragment() {
     }
 
     override fun initObservers() {
-        TODO("Not yet implemented")
+    }
+
+    override fun fetchData() {
     }
 
 }
