@@ -5,9 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.databinding.FragmentStockDescriptionBinding
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class StockDescriptionFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStockDescriptionBinding

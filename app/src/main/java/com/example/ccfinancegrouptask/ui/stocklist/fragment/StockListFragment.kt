@@ -4,35 +4,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.ccfinancegrouptask.base.BaseFragment
-import com.example.ccfinancegrouptask.data.model.StockModel
-import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSource
-import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
 import com.example.ccfinancegrouptask.databinding.FragmentStockListBinding
 import com.example.ccfinancegrouptask.ui.stocklist.adapter.StockListAdapter
 import com.example.ccfinancegrouptask.ui.stocklist.event.StockListEvent
 import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class StockListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStockListBinding
-    private val viewModel by viewModels<StockListViewModel>()
+    private val viewModel by viewModel<StockListViewModel>()
     private lateinit var adapter: StockListAdapter
 
     private val onStockClick: () -> Unit = {
