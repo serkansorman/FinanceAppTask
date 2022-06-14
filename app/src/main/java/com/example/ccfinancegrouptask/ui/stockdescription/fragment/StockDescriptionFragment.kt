@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.databinding.FragmentStockDescriptionBinding
 import com.example.ccfinancegrouptask.ui.stockdescription.event.StockDescriptionEvent
@@ -19,7 +20,7 @@ class StockDescriptionFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStockDescriptionBinding
     private val viewModel by viewModel<StockListViewModel>()
-
+    private val args: StockDescriptionFragmentArgs by navArgs()
 
     override fun bindView(inflater: LayoutInflater, container: ViewGroup?): View {
         binding = FragmentStockDescriptionBinding.inflate(inflater,container,false)
@@ -55,7 +56,7 @@ class StockDescriptionFragment : BaseFragment() {
     }
 
     override fun fetchData() {
-        viewModel.getStockDescription("AMRN")
+        viewModel.getStockDescription(args.stockSymbol)
     }
 
     /*TODO override fun onDestroy() {

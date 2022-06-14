@@ -8,8 +8,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.databinding.FragmentStockListBinding
+import com.example.ccfinancegrouptask.ui.stockdescription.fragment.StockDescriptionFragmentArgs
 import com.example.ccfinancegrouptask.ui.stocklist.adapter.StockListAdapter
 import com.example.ccfinancegrouptask.ui.stocklist.event.StockListEvent
 import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
@@ -23,9 +25,9 @@ class StockListFragment : BaseFragment() {
     private val viewModel by viewModel<StockListViewModel>()
     private lateinit var adapter: StockListAdapter
 
-    private val onStockClick: () -> Unit = {
+    private val onStockClick: (stockSymbol: String?) -> Unit = {
         findNavController().navigate(
-            StockListFragmentDirections.actionStockListFragmentToStockDescriptionFragment()
+            StockListFragmentDirections.actionStockListFragmentToStockDescriptionFragment(it)
         )
     }
 
