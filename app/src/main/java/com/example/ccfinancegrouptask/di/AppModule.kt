@@ -4,6 +4,7 @@ import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSour
 import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSourceImpl
 import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
+import com.example.ccfinancegrouptask.domain.usecase.GetStockDescriptionUseCase
 import com.example.ccfinancegrouptask.domain.usecase.GetStockListUseCase
 import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
 import okhttp3.Interceptor
@@ -13,7 +14,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { StockListViewModel(get()) }
+    viewModel { StockListViewModel(get(), get()) }
 }
 
 val networkModule = module {
@@ -37,6 +38,8 @@ val networkModule = module {
 
 val useCaseModule = module {
     single { GetStockListUseCase(get()) }
+    single { GetStockDescriptionUseCase(get()) }
+
 }
 
 val repositoryModule = module {

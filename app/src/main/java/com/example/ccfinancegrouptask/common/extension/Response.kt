@@ -15,9 +15,9 @@ fun Response?.getPrompt() = ErrorPrompt(
 fun Response.isSuccess(): Boolean =
     isSuccessful && body != null
 
-fun Response.getResponseResource(): Resource<StockListResponseModel> {
+inline fun <reified T> Response.getResponseResource(): Resource<T> {//TODO reified
     return if (isSuccess()) {
-        val response = Gson().fromJson(body!!.string(), StockListResponseModel::class.java)
+        val response = Gson().fromJson(body!!.string(), T::class.java)
         Resource.Success(response)
     } else
         Resource.Failure(this.getPrompt())
