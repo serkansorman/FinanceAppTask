@@ -70,6 +70,7 @@ class StockListFragment : BaseFragment() {
     override fun fetchData() {
         lifecycleScope.launch{
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                startLoading()
                 while(isActive){
                     viewModel.getStockList()
                     delay(Constants.STOCK_LIST_REFRESH_DELAY)

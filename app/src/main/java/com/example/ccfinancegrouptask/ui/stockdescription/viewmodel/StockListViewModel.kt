@@ -17,7 +17,6 @@ class StockListViewModel(
     val stockListStateFlow = _stockListFlow.asStateFlow()
 
     fun getStockList() {
-        _stockListFlow.value = StockListEvent.Loading
         viewModelScope.launch {
             when (val result = getStockListUseCase(Unit)) {
                 is Resource.Success -> {
