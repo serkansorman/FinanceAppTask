@@ -9,13 +9,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.databinding.FragmentStockListBinding
-import com.example.ccfinancegrouptask.ui.stockdescription.fragment.StockDescriptionFragmentArgs
 import com.example.ccfinancegrouptask.ui.stocklist.adapter.StockListAdapter
 import com.example.ccfinancegrouptask.ui.stocklist.event.StockListEvent
-import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
+import com.example.ccfinancegrouptask.ui.stockdescription.viewmodel.StockListViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel

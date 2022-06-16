@@ -1,4 +1,4 @@
-package com.example.ccfinancegrouptask.ui.stocklist.viewmodel
+package com.example.ccfinancegrouptask.ui.stockdescription.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

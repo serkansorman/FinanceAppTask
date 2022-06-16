@@ -7,7 +7,7 @@ import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import com.example.ccfinancegrouptask.domain.usecase.GetStockDescriptionUseCase
 import com.example.ccfinancegrouptask.domain.usecase.GetStockListUseCase
 import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockDescriptionViewModel
-import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
+import com.example.ccfinancegrouptask.ui.stockdescription.viewmodel.StockListViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
