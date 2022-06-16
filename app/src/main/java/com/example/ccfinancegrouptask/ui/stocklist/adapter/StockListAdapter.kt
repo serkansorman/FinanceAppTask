@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ccfinancegrouptask.data.model.StockModel
+import com.example.ccfinancegrouptask.data.model.response.StockModel
 import com.example.ccfinancegrouptask.databinding.RowStockListBinding
 
 class StockListAdapter(private val onStockClick: (String?) -> Unit) :

@@ -1,4 +1,4 @@
-package com.example.ccfinancegrouptask.data.model
+package com.example.ccfinancegrouptask.data.model.response
 
 import com.google.gson.annotations.SerializedName
 
