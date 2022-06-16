@@ -3,6 +3,8 @@ package com.example.ccfinancegrouptask.di
 import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSource
 import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSourceImpl
 import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
+import com.example.ccfinancegrouptask.domain.mapper.StockDescriptionUIMapper
+import com.example.ccfinancegrouptask.domain.model.StockDescriptionUIModel
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import com.example.ccfinancegrouptask.domain.usecase.GetStockDescriptionUseCase
 import com.example.ccfinancegrouptask.domain.usecase.GetStockListUseCase
@@ -41,7 +43,7 @@ val networkModule = module {
 
 val useCaseModule = module {
     single { GetStockListUseCase(get()) }
-    single { GetStockDescriptionUseCase(get()) }
+    single { GetStockDescriptionUseCase(get(), StockDescriptionUIMapper()) }
 
 }
 

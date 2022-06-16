@@ -181,7 +181,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/text_stock_high"
+                android:id="@+id/text_stock_low"
                 style="@style/StockDescriptionRowTheme"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -208,7 +208,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/text_stock_low"
+                android:id="@+id/text_stock_high"
                 style="@style/StockDescriptionRowTheme"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

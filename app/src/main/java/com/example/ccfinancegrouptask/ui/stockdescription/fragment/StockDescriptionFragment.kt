@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.ccfinancegrouptask.base.BaseFragment
 import com.example.ccfinancegrouptask.data.model.response.StockDescriptionResponseModel
 import com.example.ccfinancegrouptask.databinding.FragmentStockDescriptionBinding
+import com.example.ccfinancegrouptask.domain.model.StockDescriptionUIModel
 import com.example.ccfinancegrouptask.ui.stockdescription.event.StockDescriptionEvent
 import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockDescriptionViewModel
 import kotlinx.coroutines.flow.collect
@@ -32,17 +33,17 @@ class StockDescriptionFragment : BaseFragment() {
         setOnErrorRefreshClick()
     }
 
-    private fun initDetailUI(stockDescription: StockDescriptionResponseModel) {
+    private fun initDetailUI(stockDescription: StockDescriptionUIModel) {
         binding.apply {
-            stockDescription.summary?.apply {
+            stockDescription.apply {
                 textStockName.text = shortName
                 textStockCurrency.text = currency
-                textStockPrice.text = regularMarketPrice?.fmt
-                textStockChangeRate.text = regularMarketChangePercent?.fmt
-                textStockOpenPrice.text = regularMarketOpen?.fmt
-                textStockClosePrice.text = regularMarketPreviousClose?.fmt
-                textStockLow.text = regularMarketDayLow?.fmt
-                textStockHigh.text = regularMarketDayHigh?.fmt
+                textStockPrice.text = lastPrice
+                textStockChangeRate.text = changePercent
+                textStockOpenPrice.text = openPrice
+                textStockClosePrice.text = closePrice
+                textStockLow.text = priceLow
+                textStockHigh.text = priceHigh
             }
         }
     }
