@@ -1,5 +1,6 @@
 package com.example.ccfinancegrouptask.di
 
+import com.example.ccfinancegrouptask.common.Constants
 import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSource
 import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSourceImpl
 import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
@@ -19,7 +20,6 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel { StockListViewModel(get()) }
     viewModel { StockDescriptionViewModel(get()) }
-
 }
 
 val networkModule = module {
@@ -28,8 +28,8 @@ val networkModule = module {
         val builder = OkHttpClient().newBuilder()
         builder.addInterceptor { chain: Interceptor.Chain ->
             val request: Request = chain.request().newBuilder()
-                .addHeader("X-RapidAPI-Key", "f0b4e70161msh3b3116511911dbbp181a18jsnf8e3cc9d7450")
-                .addHeader("X-RapidAPI-Host", "yh-finance.p.rapidapi.com").build()
+                .addHeader(Constants.API_HEADER_KEY, "f0b4e70161msh3b3116511911dbbp181a18jsnf8e3cc9d7450")
+                .addHeader(Constants.API_HEADER_HOST, "yh-finance.p.rapidapi.com").build()
             chain.proceed(request)
         }
 

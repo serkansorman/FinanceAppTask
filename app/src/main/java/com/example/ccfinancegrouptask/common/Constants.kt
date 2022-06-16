@@ -8,5 +8,7 @@ object Constants {
     const val REGION_US = "US"
     const val QUERY_REGION = "region"
     const val QUERY_SYMBOL = "symbol"
+    const val API_HEADER_KEY = "X-RapidAPI-Key"
+    const val API_HEADER_HOST = "X-RapidAPI-Host"
     const val STOCK_LIST_REFRESH_DELAY: Long = 8000
 }
