@@ -8,4 +8,5 @@ object Constants {
     const val REGION_US = "US"
     const val QUERY_REGION = "region"
     const val QUERY_SYMBOL = "symbol"
+    const val STOCK_LIST_REFRESH_DELAY: Long = 8000
 }
