@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -39,6 +40,7 @@ class StockListFragment : BaseFragment() {
     override fun initUI() {
         initAdapter()
         initSearchLayout()
+        setOnErrorRefreshClick()
     }
 
     override fun initObservers() {
@@ -47,10 +49,15 @@ class StockListFragment : BaseFragment() {
                 viewModel.stockListStateFlow.collect{
                     when(it){
                         is StockListEvent.Success -> {
+                            endLoading()
                             adapter.updateStockList(it.stockList.toMutableList())
                         }
                         is StockListEvent.Failure -> {
-                            //TODO handle error
+                            endLoading()
+                            showErrorHandlerLayout()
+                        }
+                        is StockListEvent.Loading -> {
+                            startLoading()
                         }
                     }
 
@@ -80,8 +87,32 @@ class StockListFragment : BaseFragment() {
         })
     }
 
-    /*TODO override fun onDestroy() {
-        mBinding = null
-        super.onDestroy()
-    }*/
+    override fun startLoading(){
+        binding.apply {
+            recyclerView.isVisible = false
+            loading.progressBar.isVisible = true
+        }
+    }
+
+    override fun endLoading(){
+        binding.apply {
+            recyclerView.isVisible = true
+            loading.progressBar.isVisible = false
+        }
+    }
+
+    override fun showErrorHandlerLayout(){
+        binding.error.layout.isVisible = true
+    }
+
+    override fun hideErrorHandlerLayout(){
+        binding.error.layout.isVisible = false
+    }
+
+    override fun setOnErrorRefreshClick() {
+        binding.error.refreshButton.setOnClickListener {
+            hideErrorHandlerLayout()
+            fetchData()
+        }
+    }
 }

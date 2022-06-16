@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/layout_stock_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -66,8 +67,8 @@
                 android:layout_gravity="start"
                 android:layout_weight="1"
                 android:text="@string/stock_title_price"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/text_stock_price"
@@ -92,8 +93,8 @@
                 android:layout_gravity="start"
                 android:layout_weight="1"
                 android:text="@string/stock_title_changeRate"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/text_stock_change_rate"
@@ -120,8 +121,8 @@
                 android:layout_gravity="start"
                 android:layout_weight="1"
                 android:text="@string/stock_title_open"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/text_stock_open_price"
@@ -148,8 +149,8 @@
                 android:layout_gravity="start"
                 android:layout_weight="1"
                 android:text="@string/stock_title_close"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/text_stock_close_price"
@@ -176,8 +177,8 @@
                 android:layout_gravity="start"
                 android:layout_weight="1"
                 android:text="@string/stock_title_low"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/text_stock_high"
@@ -203,8 +204,8 @@
                 android:layout_gravity="start"
                 android:layout_weight="1"
                 android:text="@string/stock_title_high"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/text_stock_low"
@@ -217,4 +218,14 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/loading"
+        layout="@layout/loading_layout" />
+
+    <include
+        android:id="@+id/error"
+        layout="@layout/error_layout"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

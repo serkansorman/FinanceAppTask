@@ -6,6 +6,7 @@ import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import com.example.ccfinancegrouptask.domain.usecase.GetStockDescriptionUseCase
 import com.example.ccfinancegrouptask.domain.usecase.GetStockListUseCase
+import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockDescriptionViewModel
 import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -14,7 +15,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { StockListViewModel(get(), get()) }
+    viewModel { StockListViewModel(get()) }
+    viewModel { StockDescriptionViewModel(get()) }
+
 }
 
 val networkModule = module {
@@ -23,7 +26,7 @@ val networkModule = module {
         val builder = OkHttpClient().newBuilder()
         builder.addInterceptor { chain: Interceptor.Chain ->
             val request: Request = chain.request().newBuilder()
-                .addHeader("X-RapidAPI-Key", "6582e4337amsha2af643418a0ca3p17e2d0jsn857c61a5cfec")
+                .addHeader("X-RapidAPI-Key", "f0b4e70161msh3b3116511911dbbp181a18jsnf8e3cc9d7450")
                 .addHeader("X-RapidAPI-Host", "yh-finance.p.rapidapi.com").build()
             chain.proceed(request)
         }

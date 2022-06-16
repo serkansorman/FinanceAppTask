@@ -7,4 +7,5 @@
     <string name="stock_title_open">Open</string>
     <string name="stock_title_low">Low</string>
     <string name="stock_title_high">High</string>
+    <string name="error_loading_text">Something went wrong, please try again</string>
 </resources>
