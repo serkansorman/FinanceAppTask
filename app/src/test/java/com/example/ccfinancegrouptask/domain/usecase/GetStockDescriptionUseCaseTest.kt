@@ -5,6 +5,7 @@ import com.example.ccfinancegrouptask.data.model.response.StockDescriptionRespon
 import com.example.ccfinancegrouptask.domain.mapper.StockDescriptionUIMapper
 import com.example.ccfinancegrouptask.domain.model.ErrorPrompt
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
+import com.example.ccfinancegrouptask.util.TestData
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -29,11 +30,11 @@ class GetStockDescriptionUseCaseTest {
     }
 
     @Test
-    fun `When the result of getStockBySymbol is successful, return Resource Success`() {
+    fun `When the result of getStockBySymbol is successful, return Resource Success with mapped UI model`() {
         runBlocking {
             // given
             coEvery { stockRepository.getStockBySymbol(any()) } returns Resource.Success(
-               StockDescriptionResponseModel(mockk(relaxed = true))
+               TestData.stockDescriptionResponseModel
             )
 
             // when
@@ -41,7 +42,7 @@ class GetStockDescriptionUseCaseTest {
 
             // then
             coVerify { stockRepository.getStockBySymbol(any()) }
-            assertTrue(resource is Resource.Success)
+            assertEquals(TestData.stockDescriptionUIModel, (resource as Resource.Success).data)
         }
     }
 
@@ -50,7 +51,7 @@ class GetStockDescriptionUseCaseTest {
         runBlocking {
             // given
             coEvery { stockRepository.getStockBySymbol(any()) } returns Resource.Failure(
-                ErrorPrompt(-1, "dummyMessage")
+                TestData.errorPrompt
             )
 
             // when
@@ -69,7 +70,7 @@ class GetStockDescriptionUseCaseTest {
             coEvery { stockRepository.getStockBySymbol(any()) }.throws(Exception())
 
             // when
-            val resource = getStockDescriptionUseCase(GetStockDescriptionUseCase.Param("dummySymbol"))
+            val resource = getStockDescriptionUseCase(GetStockDescriptionUseCase.Param(TestData.stockSymbol))
 
             // then
             coVerify { stockRepository.getStockBySymbol(any()) }

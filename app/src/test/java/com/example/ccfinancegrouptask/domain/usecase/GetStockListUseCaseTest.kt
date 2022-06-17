@@ -5,6 +5,7 @@ import com.example.ccfinancegrouptask.data.model.response.ResultData
 import com.example.ccfinancegrouptask.data.model.response.StockListResponseModel
 import com.example.ccfinancegrouptask.domain.model.ErrorPrompt
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
+import com.example.ccfinancegrouptask.util.TestData
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -31,11 +32,11 @@ class GetStockListUseCaseTest {
     }
 
     @Test
-    fun `When the result of getStockList is successful, return Resource Success`() {
+    fun `When the result of getStockList is successful, return Resource Success with expected stock list`() {
         runBlocking {
             // given
             coEvery { stockRepository.getStockList() } returns Resource.Success(
-                StockListResponseModel(ResultData(emptyList(),null))
+                TestData.stockListResponseModel
             )
 
             // when
@@ -43,7 +44,7 @@ class GetStockListUseCaseTest {
 
             // then
             coVerify { stockRepository.getStockList() }
-            Assert.assertTrue(resource is Resource.Success)
+            Assert.assertEquals(TestData.stockModel,(resource as Resource.Success).data.first())
         }
     }
 
@@ -52,7 +53,7 @@ class GetStockListUseCaseTest {
         runBlocking {
             // given
             coEvery { stockRepository.getStockList() } returns Resource.Failure(
-                ErrorPrompt(-1,"dummyMessage")
+                TestData.errorPrompt
             )
 
             // when
