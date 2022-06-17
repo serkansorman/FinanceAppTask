@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-fun OkHttpClient.sendRequest(endPoint: String, params: Map<String, String> = emptyMap()): Response {
+fun OkHttpClient.sendRequest(endPoint: String, params: Map<String, String> = emptyMap()): Response? {
     val url = Constants.BASE_URL
         .plus(endPoint)
         .toHttpUrlOrNull()
@@ -15,10 +15,12 @@ fun OkHttpClient.sendRequest(endPoint: String, params: Map<String, String> = emp
             params.forEach { (key, value) -> addQueryParameter(key, value) }
         }?.build()
 
-    val request = Request.Builder()
-        .url(url!!) //TODO null check
+    val request = url?.let {
+        Request.Builder()
+        .url(it)
         .get()
         .build()
+    }
 
-    return newCall(request).execute()
+    return request?.let { newCall(it).execute() }
 }
