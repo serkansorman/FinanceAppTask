@@ -1,6 +1,5 @@
 package com.example.ccfinancegrouptask.data.model.response
 
-import com.example.ccfinancegrouptask.data.model.StockModel
 import com.google.gson.annotations.SerializedName
 
 data class StockListResponseModel(

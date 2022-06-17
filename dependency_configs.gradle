@@ -2,8 +2,10 @@ ext {
     versions = [
 
             navigation : "2.4.2",
-            retrofit: "2.9.0",
-            hilt: "2.41"
+            koin: "3.2.0",
+            okhttp: "4.9.3",
+            lifecycle: "2.4.1",
+            gson: "2.8.9"
 
     ]
 }

@@ -15,5 +15,10 @@
     <fragment
         android:id="@+id/stockDescriptionFragment"
         android:name="com.example.ccfinancegrouptask.ui.stockdescription.fragment.StockDescriptionFragment"
-        android:label="StockDescriptionFragment" />
+        android:label="StockDescriptionFragment" >
+        <argument
+            android:name="stockSymbol"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

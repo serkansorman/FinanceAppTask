@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ccfinancegrouptask.data.model.StockModel
+import com.example.ccfinancegrouptask.data.model.response.StockModel
 import com.example.ccfinancegrouptask.databinding.RowStockListBinding
 
-class StockListAdapter(private val onStockClick: () -> Unit) :
+class StockListAdapter(private val onStockClick: (String?) -> Unit) :
     RecyclerView.Adapter<StockListAdapter.StockViewHolder>(), Filterable {
 
     private var stockList = mutableListOf<StockModel>()
@@ -48,11 +48,11 @@ class StockListAdapter(private val onStockClick: () -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(stockModel: StockModel) {
             with(binding) {
-                textStockExchange.text = stockModel.exchange
+                textStockSymbol.text = stockModel.symbol
                 textStockLongName.text = stockModel.fullExchangeName
                 textStockShortName.text = stockModel.shortName
                 textStockPrice.text = stockModel.marketClosePrice?.fmt
-                layoutStock.setOnClickListener { onStockClick.invoke() }
+                layoutStock.setOnClickListener { onStockClick(stockModel.symbol) }
             }
         }
     }
@@ -83,6 +83,6 @@ class StockListAdapter(private val onStockClick: () -> Unit) :
     private fun isStockMatched(stockModel: StockModel, query: String): Boolean {
         return query.isNotBlank() && (stockModel.shortName?.lowercase()?.contains(query.lowercase()) == true ||
                 stockModel.fullExchangeName?.lowercase()?.contains(query.lowercase()) == true ||
-                stockModel.exchange?.lowercase()?.contains(query.lowercase()) == true)
+                stockModel.symbol?.lowercase()?.contains(query.lowercase()) == true)
     }
 }

@@ -4,40 +4,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.fragment.app.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.ccfinancegrouptask.base.BaseFragment
-import com.example.ccfinancegrouptask.data.model.StockModel
-import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSource
-import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
+import com.example.ccfinancegrouptask.common.Constants
 import com.example.ccfinancegrouptask.databinding.FragmentStockListBinding
 import com.example.ccfinancegrouptask.ui.stocklist.adapter.StockListAdapter
 import com.example.ccfinancegrouptask.ui.stocklist.event.StockListEvent
-import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockListViewModel
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.ccfinancegrouptask.ui.stockdescription.viewmodel.StockListViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class StockListFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStockListBinding
-    private val viewModel by viewModels<StockListViewModel>()
+    private val viewModel by viewModel<StockListViewModel>()
     private lateinit var adapter: StockListAdapter
 
-    private val onStockClick: () -> Unit = {
+    private val onStockClick: (stockSymbol: String?) -> Unit = {
         findNavController().navigate(
-            StockListFragmentDirections.actionStockListFragmentToStockDescriptionFragment()
+            StockListFragmentDirections.actionStockListFragmentToStockDescriptionFragment(it)
         )
     }
 
@@ -49,6 +41,7 @@ class StockListFragment : BaseFragment() {
     override fun initUI() {
         initAdapter()
         initSearchLayout()
+        setOnErrorRefreshClick()
     }
 
     override fun initObservers() {
@@ -57,10 +50,15 @@ class StockListFragment : BaseFragment() {
                 viewModel.stockListStateFlow.collect{
                     when(it){
                         is StockListEvent.Success -> {
+                            endLoading()
                             adapter.updateStockList(it.stockList.toMutableList())
                         }
                         is StockListEvent.Failure -> {
-                            //TODO handle error
+                            endLoading()
+                            showErrorHandlerLayout()
+                        }
+                        is StockListEvent.Loading -> {
+                            startLoading()
                         }
                     }
 
@@ -70,7 +68,15 @@ class StockListFragment : BaseFragment() {
     }
 
     override fun fetchData() {
-        viewModel.getStockList()
+        lifecycleScope.launch{
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                startLoading()
+                while(isActive){
+                    viewModel.getStockList()
+                    delay(Constants.STOCK_LIST_REFRESH_DELAY)
+                }
+            }
+        }
     }
 
     private fun initAdapter(){
@@ -90,8 +96,32 @@ class StockListFragment : BaseFragment() {
         })
     }
 
-    /*TODO override fun onDestroy() {
-        mBinding = null
-        super.onDestroy()
-    }*/
+    override fun startLoading(){
+        binding.apply {
+            recyclerView.isVisible = false
+            loading.progressBar.isVisible = true
+        }
+    }
+
+    override fun endLoading(){
+        binding.apply {
+            recyclerView.isVisible = true
+            loading.progressBar.isVisible = false
+        }
+    }
+
+    override fun showErrorHandlerLayout(){
+        binding.error.layout.isVisible = true
+    }
+
+    override fun hideErrorHandlerLayout(){
+        binding.error.layout.isVisible = false
+    }
+
+    override fun setOnErrorRefreshClick() {
+        binding.error.refreshButton.setOnClickListener {
+            hideErrorHandlerLayout()
+            fetchData()
+        }
+    }
 }
