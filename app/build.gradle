@@ -44,11 +44,11 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
 
     //Network
-    implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation "com.google.code.gson:gson:$versions.gson"
+    implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
 
     //Lifecycle
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
 
     //Koin
     implementation "io.insert-koin:koin-android:$versions.koin"
