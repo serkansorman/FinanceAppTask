@@ -1,15 +1,14 @@
 package com.example.ccfinancegrouptask.domain.usecase
 
 import com.example.ccfinancegrouptask.common.Resource
-import com.example.ccfinancegrouptask.data.model.response.ResultData
-import com.example.ccfinancegrouptask.data.model.response.StockListResponseModel
-import com.example.ccfinancegrouptask.domain.model.ErrorPrompt
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import com.example.ccfinancegrouptask.util.TestData
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
@@ -35,16 +34,18 @@ class GetStockListUseCaseTest {
     fun `When the result of getStockList is successful, return Resource Success with expected stock list`() {
         runBlocking {
             // given
-            coEvery { stockRepository.getStockList() } returns Resource.Success(
-                TestData.stockListResponseModel
+            coEvery { stockRepository.getStockListFlow() } returns flowOf(
+                Resource.Success(
+                    TestData.stockListResponseModel
+                )
             )
 
             // when
-            val resource = getStockListUseCase(Unit)
+            val resource = getStockListUseCase(Unit).first()
 
             // then
-            coVerify { stockRepository.getStockList() }
-            Assert.assertEquals(TestData.stockModel,(resource as Resource.Success).data.first())
+            coVerify { stockRepository.getStockListFlow() }
+            Assert.assertEquals(TestData.stockModel, (resource as Resource.Success).data.first())
         }
     }
 
@@ -52,15 +53,17 @@ class GetStockListUseCaseTest {
     fun `When the result of getStockList is failure, return Resource Failure`() {
         runBlocking {
             // given
-            coEvery { stockRepository.getStockList() } returns Resource.Failure(
-                TestData.errorPrompt
+            coEvery { stockRepository.getStockListFlow() } returns flowOf(
+                Resource.Failure(
+                    TestData.errorPrompt
+                )
             )
 
             // when
-            val resource = getStockListUseCase(Unit)
+            val resource = getStockListUseCase(Unit).first()
 
             // then
-            coVerify { stockRepository.getStockList() }
+            coVerify { stockRepository.getStockListFlow() }
             Assert.assertTrue(resource is Resource.Failure)
         }
     }
@@ -69,13 +72,13 @@ class GetStockListUseCaseTest {
     fun `When the result of getStockList throws Exception, return Resource Failure`() {
         runBlocking {
             // given
-            coEvery { stockRepository.getStockList() }.throws(Exception())
+            coEvery { stockRepository.getStockListFlow() }.throws(Exception())
 
             // when
-            val resource = getStockListUseCase(Unit)
+            val resource = getStockListUseCase(Unit).first()
 
             // then
-            coVerify { stockRepository.getStockList() }
+            coVerify { stockRepository.getStockListFlow() }
             Assert.assertTrue(resource is Resource.Failure)
         }
     }

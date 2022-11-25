@@ -2,9 +2,6 @@ package com.example.ccfinancegrouptask.ui.stockdescription.viewmodel
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.ccfinancegrouptask.common.Resource
-import com.example.ccfinancegrouptask.data.model.response.StockModel
-import com.example.ccfinancegrouptask.domain.model.ErrorPrompt
-import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import com.example.ccfinancegrouptask.domain.usecase.GetStockListUseCase
 import com.example.ccfinancegrouptask.ui.stocklist.event.StockListEvent
 import com.example.ccfinancegrouptask.util.TestCoroutineRule
@@ -12,12 +9,11 @@ import com.example.ccfinancegrouptask.util.TestData
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import org.junit.Assert.*
+import kotlinx.coroutines.flow.flowOf
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -48,13 +44,13 @@ class StockListViewModelTest {
         testCoroutineRule.runBlockingTest {
             //given
             val expectedList = mutableListOf(TestData.stockModel)
-            coEvery { getStockListUseCase(Unit)} returns Resource.Success(expectedList)
+            coEvery { getStockListUseCase(Unit) } returns flowOf(Resource.Success(expectedList))
 
             //when
             viewModel.getStockList()
 
             //then
-           val actual = viewModel.stockListStateFlow.first()
+            val actual = viewModel.stockListStateFlow.first()
             assertEquals(expectedList.first(), (actual as StockListEvent.Success).stockList.first())
 
         }
@@ -65,7 +61,11 @@ class StockListViewModelTest {
         testCoroutineRule.runBlockingTest {
             //given
             val expectedErrorPrompt = TestData.errorPrompt
-            coEvery { getStockListUseCase(Unit)} returns Resource.Failure(expectedErrorPrompt)
+            coEvery { getStockListUseCase(Unit) } returns flowOf(
+                Resource.Failure(
+                    expectedErrorPrompt
+                )
+            )
 
             //when
             viewModel.getStockList()

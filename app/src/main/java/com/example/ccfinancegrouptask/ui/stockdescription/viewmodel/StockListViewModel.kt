@@ -7,6 +7,7 @@ import com.example.ccfinancegrouptask.domain.usecase.GetStockListUseCase
 import com.example.ccfinancegrouptask.ui.stocklist.event.StockListEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class StockListViewModel(
@@ -18,12 +19,14 @@ class StockListViewModel(
 
     fun getStockList() {
         viewModelScope.launch {
-            when (val result = getStockListUseCase(Unit)) {
-                is Resource.Success -> {
-                    _stockListFlow.value = StockListEvent.Success(result.data)
-                }
-                is Resource.Failure -> {
-                    _stockListFlow.value = StockListEvent.Failure(result.errorPrompt)
+            getStockListUseCase(Unit).collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        _stockListFlow.value = StockListEvent.Success(result.data)
+                    }
+                    is Resource.Failure -> {
+                        _stockListFlow.value = StockListEvent.Failure(result.errorPrompt)
+                    }
                 }
             }
         }

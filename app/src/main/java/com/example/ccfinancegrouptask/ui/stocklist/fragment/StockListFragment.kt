@@ -10,14 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.ccfinancegrouptask.base.BaseFragment
-import com.example.ccfinancegrouptask.common.Constants
 import com.example.ccfinancegrouptask.databinding.FragmentStockListBinding
+import com.example.ccfinancegrouptask.ui.stockdescription.viewmodel.StockListViewModel
 import com.example.ccfinancegrouptask.ui.stocklist.adapter.StockListAdapter
 import com.example.ccfinancegrouptask.ui.stocklist.event.StockListEvent
-import com.example.ccfinancegrouptask.ui.stockdescription.viewmodel.StockListViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -68,15 +65,7 @@ class StockListFragment : BaseFragment() {
     }
 
     override fun fetchData() {
-        lifecycleScope.launch{
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                startLoading()
-                while(isActive){
-                    viewModel.getStockList()
-                    delay(Constants.STOCK_LIST_REFRESH_DELAY)
-                }
-            }
-        }
+        viewModel.getStockList()
     }
 
     private fun initAdapter(){

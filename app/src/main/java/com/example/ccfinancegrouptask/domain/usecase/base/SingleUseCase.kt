@@ -5,7 +5,7 @@ import com.example.ccfinancegrouptask.domain.model.ErrorPrompt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-abstract class BaseUseCase<in Params, Type>{
+abstract class SingleUseCase<in Params, Type> {
 
     abstract suspend fun getExecutable(params: Params): Resource<Type>
 
@@ -14,7 +14,7 @@ abstract class BaseUseCase<in Params, Type>{
             withContext(Dispatchers.IO) {
                 getExecutable(params)
             }
-        }catch (e: Exception){
+        } catch (e: Exception) {
             Resource.Failure(ErrorPrompt(errorCode = -1, message = e.message))
         }
     }
