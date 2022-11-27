@@ -1,5 +1,6 @@
 package com.example.ccfinancegrouptask.domain.usecase
 
+import com.example.ccfinancegrouptask.common.AppDispatchers
 import com.example.ccfinancegrouptask.common.Resource
 import com.example.ccfinancegrouptask.data.model.response.StockModel
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
@@ -9,7 +10,8 @@ import kotlinx.coroutines.flow.map
 
 class GetStockListFlowUseCase(
     private val stockRepository: StockRepository,
-) : FlowUseCase<Unit, List<StockModel>>() {
+    private val dispatchers: AppDispatchers
+) : FlowUseCase<Unit, List<StockModel>>(dispatchers) {
 
     override fun getFlow(params: Unit): Flow<Resource<List<StockModel>>> =
         stockRepository.getStockListFlow()

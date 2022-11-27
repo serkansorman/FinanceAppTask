@@ -1,5 +1,6 @@
 package com.example.ccfinancegrouptask.di
 
+import com.example.ccfinancegrouptask.common.AppDispatchers
 import com.example.ccfinancegrouptask.common.Constants
 import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSource
 import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSourceImpl
@@ -11,6 +12,7 @@ import com.example.ccfinancegrouptask.domain.usecase.GetStockListFlowUseCase
 import com.example.ccfinancegrouptask.domain.usecase.GetStockListSingleUseCase
 import com.example.ccfinancegrouptask.ui.stockdescription.viewmodel.StockListViewModel
 import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockDescriptionViewModel
+import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -42,9 +44,9 @@ val networkModule = module {
 }
 
 val useCaseModule = module {
-    single { GetStockListSingleUseCase(get()) }
-    single { GetStockListFlowUseCase(get()) }
-    single { GetStockDescriptionUseCase(get(), StockDescriptionUIMapper()) }
+    single { GetStockListSingleUseCase(get(), get()) }
+    single { GetStockListFlowUseCase(get(), get()) }
+    single { GetStockDescriptionUseCase(get(), StockDescriptionUIMapper(), get()) }
 
 }
 
@@ -64,5 +66,9 @@ val dataSourceModule = module {
         StockRemoteDataSourceImpl(client)
 
     single { provideStockRemoteDataSource(get()) }
+}
+
+val dispatchersModule = module {
+    single { AppDispatchers(Dispatchers.Main, Dispatchers.IO, Dispatchers.Default) }
 }
 

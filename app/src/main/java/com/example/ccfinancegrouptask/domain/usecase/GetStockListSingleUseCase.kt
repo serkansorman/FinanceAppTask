@@ -1,5 +1,6 @@
 package com.example.ccfinancegrouptask.domain.usecase
 
+import com.example.ccfinancegrouptask.common.AppDispatchers
 import com.example.ccfinancegrouptask.common.Resource
 import com.example.ccfinancegrouptask.data.model.response.StockModel
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
@@ -7,7 +8,8 @@ import com.example.ccfinancegrouptask.domain.usecase.base.SingleUseCase
 
 class GetStockListSingleUseCase(
     private val stockRepository: StockRepository,
-) : SingleUseCase<Unit, List<StockModel>>() {
+    private val dispatchers: AppDispatchers
+) : SingleUseCase<Unit, List<StockModel>>(dispatchers) {
 
     override suspend fun getExecutable(params: Unit): Resource<List<StockModel>> {
         return when (val result = stockRepository.getSingleStockList()) {
