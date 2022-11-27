@@ -1,11 +1,13 @@
 package com.example.ccfinancegrouptask.domain.usecase
 
+import com.example.ccfinancegrouptask.common.AppDispatchers
 import com.example.ccfinancegrouptask.common.Resource
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import com.example.ccfinancegrouptask.util.TestData
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -18,10 +20,12 @@ class GetStockListSingleUseCaseTest {
 
     private var stockRepository = mockk<StockRepository>()
     private lateinit var getStockListSingleUseCase: GetStockListSingleUseCase
+    private val appDispatchers =
+        AppDispatchers(Dispatchers.Main, Dispatchers.IO, Dispatchers.Default)
 
     @Before
     fun setUp() {
-        getStockListSingleUseCase = GetStockListSingleUseCase(stockRepository)
+        getStockListSingleUseCase = GetStockListSingleUseCase(stockRepository, appDispatchers)
     }
 
     @After

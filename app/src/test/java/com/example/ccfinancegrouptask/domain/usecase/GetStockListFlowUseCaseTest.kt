@@ -1,11 +1,13 @@
 package com.example.ccfinancegrouptask.domain.usecase
 
+import com.example.ccfinancegrouptask.common.AppDispatchers
 import com.example.ccfinancegrouptask.common.Resource
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import com.example.ccfinancegrouptask.util.TestData
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -20,10 +22,12 @@ class GetStockListFlowUseCaseTest {
 
     private var stockRepository = mockk<StockRepository>()
     private lateinit var getStockListFlowUseCase: GetStockListFlowUseCase
+    private val appDispatchers =
+        AppDispatchers(Dispatchers.Main, Dispatchers.IO, Dispatchers.Default)
 
     @Before
     fun setUp() {
-        getStockListFlowUseCase = GetStockListFlowUseCase(stockRepository)
+        getStockListFlowUseCase = GetStockListFlowUseCase(stockRepository, appDispatchers)
     }
 
     @After
