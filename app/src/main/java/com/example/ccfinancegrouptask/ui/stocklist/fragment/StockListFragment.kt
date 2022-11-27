@@ -42,10 +42,10 @@ class StockListFragment : BaseFragment() {
     }
 
     override fun initObservers() {
-        lifecycleScope.launch{
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED){
-                viewModel.stockListStateFlow.collect{
-                    when(it){
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stockListFlow.collect {
+                    when (it) {
                         is StockListEvent.Success -> {
                             endLoading()
                             adapter.updateStockList(it.stockList.toMutableList())
@@ -58,26 +58,26 @@ class StockListFragment : BaseFragment() {
                             startLoading()
                         }
                     }
-
                 }
             }
         }
     }
 
     override fun fetchData() {
-        viewModel.getStockList()
+        viewModel.refreshStockList()
     }
 
-    private fun initAdapter(){
+    private fun initAdapter() {
         adapter = StockListAdapter(onStockClick)
         binding.recyclerView.adapter = adapter
     }
 
-    private fun initSearchLayout(){
+    private fun initSearchLayout() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
             }
+
             override fun onQueryTextChange(p0: String?): Boolean {
                 adapter.filter.filter(p0)
                 return true
@@ -85,25 +85,25 @@ class StockListFragment : BaseFragment() {
         })
     }
 
-    override fun startLoading(){
+    override fun startLoading() {
         binding.apply {
             recyclerView.isVisible = false
             loading.progressBar.isVisible = true
         }
     }
 
-    override fun endLoading(){
+    override fun endLoading() {
         binding.apply {
             recyclerView.isVisible = true
             loading.progressBar.isVisible = false
         }
     }
 
-    override fun showErrorHandlerLayout(){
+    override fun showErrorHandlerLayout() {
         binding.error.layout.isVisible = true
     }
 
-    override fun hideErrorHandlerLayout(){
+    override fun hideErrorHandlerLayout() {
         binding.error.layout.isVisible = false
     }
 

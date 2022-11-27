@@ -23,6 +23,10 @@ class StockRepositoryImpl constructor(
         }
     }
 
+    override suspend fun getSingleStockList(): Resource<StockListResponseModel> {
+        return stockRemoteDataSource.getStockList().getResponseResource()
+    }
+
     override suspend fun getStockBySymbol(symbol: String): Resource<StockDescriptionResponseModel> {
         return stockRemoteDataSource.getStockDescription(symbol).getResponseResource()
     }

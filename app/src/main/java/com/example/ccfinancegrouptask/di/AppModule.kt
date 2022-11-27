@@ -5,12 +5,12 @@ import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSour
 import com.example.ccfinancegrouptask.data.remote.datasource.StockRemoteDataSourceImpl
 import com.example.ccfinancegrouptask.data.repository.StockRepositoryImpl
 import com.example.ccfinancegrouptask.domain.mapper.StockDescriptionUIMapper
-import com.example.ccfinancegrouptask.domain.model.StockDescriptionUIModel
 import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import com.example.ccfinancegrouptask.domain.usecase.GetStockDescriptionUseCase
-import com.example.ccfinancegrouptask.domain.usecase.GetStockListUseCase
-import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockDescriptionViewModel
+import com.example.ccfinancegrouptask.domain.usecase.GetStockListFlowUseCase
+import com.example.ccfinancegrouptask.domain.usecase.GetStockListSingleUseCase
 import com.example.ccfinancegrouptask.ui.stockdescription.viewmodel.StockListViewModel
+import com.example.ccfinancegrouptask.ui.stocklist.viewmodel.StockDescriptionViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -18,7 +18,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { StockListViewModel(get()) }
+    viewModel { StockListViewModel(get(), get()) }
     viewModel { StockDescriptionViewModel(get()) }
 }
 
@@ -42,7 +42,8 @@ val networkModule = module {
 }
 
 val useCaseModule = module {
-    single { GetStockListUseCase(get()) }
+    single { GetStockListSingleUseCase(get()) }
+    single { GetStockListFlowUseCase(get()) }
     single { GetStockDescriptionUseCase(get(), StockDescriptionUIMapper()) }
 
 }

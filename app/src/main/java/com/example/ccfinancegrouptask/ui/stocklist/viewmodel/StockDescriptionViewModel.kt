@@ -17,8 +17,8 @@ class StockDescriptionViewModel(private val getStockDescriptionUseCase: GetStock
     val stockDescriptionFlow = _stockDescriptionFlow.asStateFlow()
 
     fun getStockDescription(symbol: String?) {
-        _stockDescriptionFlow.value = StockDescriptionEvent.Loading
         viewModelScope.launch {
+            _stockDescriptionFlow.value = StockDescriptionEvent.Loading
             when (val result = getStockDescriptionUseCase(GetStockDescriptionUseCase.Param(symbol))) {
                 is Resource.Success -> {
                     _stockDescriptionFlow.value = StockDescriptionEvent.Success(result.data)

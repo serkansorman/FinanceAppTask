@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.example.ccfinancegrouptask.base.BaseFragment
-import com.example.ccfinancegrouptask.data.model.response.StockDescriptionResponseModel
 import com.example.ccfinancegrouptask.databinding.FragmentStockDescriptionBinding
 import com.example.ccfinancegrouptask.domain.model.StockDescriptionUIModel
 import com.example.ccfinancegrouptask.ui.stockdescription.event.StockDescriptionEvent
@@ -50,7 +49,7 @@ class StockDescriptionFragment : BaseFragment() {
 
     override fun initObservers() {
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.stockDescriptionFlow.collect {
                     when (it) {
                         is StockDescriptionEvent.Success -> {

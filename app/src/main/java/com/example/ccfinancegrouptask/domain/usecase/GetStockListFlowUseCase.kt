@@ -7,11 +7,11 @@ import com.example.ccfinancegrouptask.domain.usecase.base.FlowUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GetStockListUseCase(
+class GetStockListFlowUseCase(
     private val stockRepository: StockRepository,
 ) : FlowUseCase<Unit, List<StockModel>>() {
 
-    override suspend fun getFlow(params: Unit): Flow<Resource<List<StockModel>>> =
+    override fun getFlow(params: Unit): Flow<Resource<List<StockModel>>> =
         stockRepository.getStockListFlow()
             .map { result ->
                 when (result) {

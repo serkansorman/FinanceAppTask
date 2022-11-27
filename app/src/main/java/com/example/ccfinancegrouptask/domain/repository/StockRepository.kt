@@ -9,5 +9,7 @@ interface StockRepository {
 
     fun getStockListFlow(): Flow<Resource<StockListResponseModel>>
 
-    suspend fun getStockBySymbol(symbol: String) : Resource<StockDescriptionResponseModel>
+    suspend fun getSingleStockList(): Resource<StockListResponseModel>
+
+    suspend fun getStockBySymbol(symbol: String): Resource<StockDescriptionResponseModel>
 }

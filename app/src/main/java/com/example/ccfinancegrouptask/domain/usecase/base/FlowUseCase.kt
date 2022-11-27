@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.flowOn
 
 abstract class FlowUseCase<in Params, Type> {
 
-    abstract suspend fun getFlow(params: Params): Flow<Resource<Type>>
+    abstract fun getFlow(params: Params): Flow<Resource<Type>>
 
-    suspend operator fun invoke(params: Params): Flow<Resource<Type>> {
+    operator fun invoke(params: Params): Flow<Resource<Type>> {
         return try {
             getFlow(params)
                 .flowOn(Dispatchers.IO)
