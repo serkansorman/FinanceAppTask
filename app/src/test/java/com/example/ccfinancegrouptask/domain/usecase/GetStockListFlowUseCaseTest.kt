@@ -16,14 +16,14 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class GetStockListUseCaseTest {
+class GetStockListFlowUseCaseTest {
 
     private var stockRepository = mockk<StockRepository>()
-    private lateinit var getStockListUseCase: GetStockListUseCase
+    private lateinit var getStockListFlowUseCase: GetStockListFlowUseCase
 
     @Before
     fun setUp() {
-        getStockListUseCase = GetStockListUseCase(stockRepository)
+        getStockListFlowUseCase = GetStockListFlowUseCase(stockRepository)
     }
 
     @After
@@ -31,7 +31,7 @@ class GetStockListUseCaseTest {
     }
 
     @Test
-    fun `When the result of getStockList is successful, return Resource Success with expected stock list`() {
+    fun `When getStockListFlow emit success, return Resource Success with expected stock list`() {
         runBlocking {
             // given
             coEvery { stockRepository.getStockListFlow() } returns flowOf(
@@ -41,7 +41,7 @@ class GetStockListUseCaseTest {
             )
 
             // when
-            val resource = getStockListUseCase(Unit).first()
+            val resource = getStockListFlowUseCase(Unit).first()
 
             // then
             coVerify { stockRepository.getStockListFlow() }
@@ -50,7 +50,7 @@ class GetStockListUseCaseTest {
     }
 
     @Test
-    fun `When the result of getStockList is failure, return Resource Failure`() {
+    fun `When getStockListFlow emits failure, return Resource Failure`() {
         runBlocking {
             // given
             coEvery { stockRepository.getStockListFlow() } returns flowOf(
@@ -60,7 +60,7 @@ class GetStockListUseCaseTest {
             )
 
             // when
-            val resource = getStockListUseCase(Unit).first()
+            val resource = getStockListFlowUseCase(Unit).first()
 
             // then
             coVerify { stockRepository.getStockListFlow() }
@@ -69,13 +69,13 @@ class GetStockListUseCaseTest {
     }
 
     @Test
-    fun `When the result of getStockList throws Exception, return Resource Failure`() {
+    fun `When getStockListFlow throws Exception, return Resource Failure`() {
         runBlocking {
             // given
             coEvery { stockRepository.getStockListFlow() }.throws(Exception())
 
             // when
-            val resource = getStockListUseCase(Unit).first()
+            val resource = getStockListFlowUseCase(Unit).first()
 
             // then
             coVerify { stockRepository.getStockListFlow() }
