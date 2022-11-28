@@ -18,7 +18,8 @@ class MainApplication : Application() {
                 networkModule,
                 useCaseModule,
                 repositoryModule,
-                dataSourceModule
+                dataSourceModule,
+                dispatchersModule
             )
         }
     }

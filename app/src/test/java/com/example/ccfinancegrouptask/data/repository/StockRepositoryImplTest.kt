@@ -6,6 +6,7 @@ import com.example.ccfinancegrouptask.domain.repository.StockRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Response
 import org.junit.After
@@ -36,7 +37,7 @@ class LiveSupportRepositoryImplTest {
             coEvery { remoteDataSource.getStockList() } returns response
 
             // when
-            stockRepository.getStockList()
+            stockRepository.getStockListFlow().first()
 
             // then
             coVerify { remoteDataSource.getStockList() }
@@ -50,7 +51,7 @@ class LiveSupportRepositoryImplTest {
             coEvery { remoteDataSource.getStockList() } returns response
 
             // when
-            val resource = stockRepository.getStockList()
+            val resource = stockRepository.getStockListFlow().first()
 
             // then
             coVerify { remoteDataSource.getStockList() }
