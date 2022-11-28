@@ -5,8 +5,7 @@
 2. Yahoo Finance API https://english.api.rakuten.net/apidojo/api/yh-finance used for the data list (market/v2/get-summary). Every 8 seconds, this screen updated by refresh data from the API.
 3. On the top of the list screen, the search bar lets the user filter out stocks by the details.
 4. When user press on the list item, user can get detailed info via (stock/v2/get-summary) and shows it.
-5. The stock list on the screen is updated every 8 seconds.
-6. Since there is an HTTP library restriction in the project requirements, OkHttp is used by implementing own network model mapping instead of Retrofit library.
+5. Since there is an HTTP library restriction in the project requirements, OkHttp is used by implementing own network model mapping instead of Retrofit library.
 </br>
 
 <p><img height= "650"  width="300" src="https://user-images.githubusercontent.com/23194718/174276424-a1ea269d-7783-45e8-80c2-a809d7eb8885.gif" alt="SocialMediaAppGif" />
